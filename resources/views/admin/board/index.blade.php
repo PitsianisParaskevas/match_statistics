@@ -3,6 +3,7 @@
 @section('content')
 <div class="row">
     <div class="col-sm-12">
+        @include('admin.layouts.byRounds')
     <div class="home-tab">
         <div class="tab-content tab-content-basic">
             <div class="row">            

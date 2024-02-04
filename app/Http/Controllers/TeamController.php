@@ -56,35 +56,36 @@ class TeamController extends Controller
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-
-        // $allteams = Team::all();
-        $team = Team::find($id);
-        $fixtures = Fixture::where('home_team', $id)->orWhere('away_team', $id)->get();
-        $results = Result::where('home_team', $id)->orWhere('away_team', $id)->get();
-        
-        $resultsHome = Result::where('home_team', $id)->get();
-        $resultsAway = Result::where('away_team', $id)->get();
-
-        $homeSum = new Result();
-        $homeSum = $homeSum->sumHome($id);
-
-        $awaySum = new Result();
-        $awaySum = $awaySum->sumAway($id);
-
-        $totalResult = new Result();
-        $totalResult = $totalResult->totalResult($homeSum, $awaySum);             
-           
-        //find team in ScoreBoard Total P GA GF
-        $teamScoreBoard = ScoreBoard::where('team_id', $id)->orderby('matchday', 'DESC')->first();
-
-        $homematch = new Fixture();
-        $homematch = $homematch->getHomeMatch($id);
-        // return $results;
-        return view('admin.team.team', compact('fixtures','results', 'team', 'homematch', 'teamScoreBoard', 'totalResult'));
-    }
+     */     
+     public function show($id)
+     {
+ 
+         // $allteams = Team::all();
+         $team = Team::find($id);
+         $fixtures = Fixture::where('home_team', $id)->orWhere('away_team', $id)->get();
+         $results = Result::where('home_team', $id)->orWhere('away_team', $id)->get();
+         
+         $resultsHome = Result::where('home_team', $id)->get();
+         $resultsAway = Result::where('away_team', $id)->get();
+ 
+         $homeSum = new Result();
+         $homeSum = $homeSum->sumHome($id);
+ 
+         $awaySum = new Result();
+         $awaySum = $awaySum->sumAway($id);
+ 
+         $totalResult = new Result();
+         $totalResult = $totalResult->totalResult($homeSum, $awaySum);             
+            
+         //find team in ScoreBoard Total P GA GF
+         $teamScoreBoard = ScoreBoard::where('team_id', $id)->orderby('matchday', 'DESC')->first();
+ 
+         $homematch = new Fixture();
+         $homematch = $homematch->getHomeMatch($id);
+         // return $results;
+         return view('admin.team.team', compact('fixtures','results', 'team', 'homematch', 'teamScoreBoard', 'totalResult', 'homeSum', 'awaySum'));
+     }
+ 
 
     // public function showTeam($id)
     // {
@@ -125,6 +126,8 @@ class TeamController extends Controller
     {
         //
     }
+
+    
 
     
 }

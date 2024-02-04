@@ -198,6 +198,12 @@
           <span class="menu-title">Teams</span>
         </a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{route('teams.index')}}">
+          <i class="mdi mdi-grid-large menu-icon"></i>
+          <span class="menu-title">Teams1</span>
+        </a>
+      </li>
       {{-- <li class="nav-item">
         <a class="nav-link" href="{{route('fixtures.show', 1)}}">
           <i class="mdi mdi-grid-large menu-icon"></i>

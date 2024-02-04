@@ -76,7 +76,9 @@ class Result extends Model
     //calculate sum of home team 
     public function sumHome($id) {
         $total = Result::where('home_team', $id)->get();
+
         $homeTotal = array (
+            'total' => $total->count(),
             'gF' =>  $total->sum('homeTeam_goal'),
             'gA' => $total->sum('awayTeam_goal'),
             'points' => $total->sum('home_points'),
@@ -93,10 +95,35 @@ class Result extends Model
         return $homeTotal;
     }
 
+    //calculate avg of home team 
+    public function avgHome($id) {
+
+        $sumHome = $this->sumHome($id);
+        $avgHome = array (
+            // 'total' => $total->count(),
+            'gF' =>  ($sumHome['gf'] / $sumHome['total']),
+            // 'gA' => $total->sum('awayTeam_goal'),
+            // 'points' => $total->sum('home_points'),
+            // 'xG' => number_format($total->sum('home_xG'), 2),
+            // 'ballPossesion'  => $total->sum('home_ballPossession'),
+            // 'shots' => $total->sum('home_shots'),
+            // 'shotsOnTarget'=> $total->sum('home_shotsOnTarget'),
+            // 'corner' => $total->sum('home_corners'),
+            // 'offsides'=> $total->sum('home_offsides'),
+            // 'fouls'=> $total->sum('home_fouls'),
+            // 'yellow'=> $total->sum('home_yellow'),
+            // 'red'=> $total->sum('home_red'),
+        );
+        return $avgHome;
+    }
+
+
+
     //calculate sum of away team 
     public function sumAway($id) {
         $total = Result::where('away_team', $id)->get();
         $awayTotal = array (
+            'total' => $total->count(),
             'gF' =>  $total->sum('awayTeam_goal'),
             'gA' => $total->sum('homeTeam_goal'),
             'points' => $total->sum('away_points'),
@@ -113,8 +140,11 @@ class Result extends Model
         return $awayTotal;
     }
 
+    
+
     public function totalResult($home, $away) {
         $totalResult = array(
+        'total' => $home['total'] + $away['total'],   
         'gF' => $home['gF'] + $away['gF'],
         'gA' => $home['gA'] + $away['gA'],
         'points' => $home['points'] + $away['points'],
@@ -130,6 +160,18 @@ class Result extends Model
         );
         return $totalResult;
     }
+
+    public function collectAll($id) {      
+        $collectAll = array (
+            'sumHome' => $this->sumHome($id),
+            'sumAway' => $this->sumAway($id),
+            'totalResult' =>$this->totalResult($this->sumHome($id), $this->sumAway($id)),
+        );
+
+        return $collectAll;
+
+    }
+    
         
 
 
@@ -157,5 +199,8 @@ class Result extends Model
         // Team calculate points ga gf Home
 
         // Team calculate points ga gf Away 
+
+
+
     
 }
